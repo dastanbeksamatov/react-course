@@ -6,7 +6,7 @@ const Button = ({handleClicked, text}) =>
 
 const App = (props) => {
   const [selected, setSelected] = useState(0)
-  const [votes, setVote] = useState([0, 0, 0, 0 ,0, 0])
+  const [votes, setVote] = useState({})
   function randomInt(min, max){
     min = Math.ceil(min);
     max = Math.ceil(max);
@@ -17,9 +17,11 @@ const App = (props) => {
     setSelected(rand)
   }
   const handleVoted = () => {
-    const copy = [...votes]
-    copy[selected] += 1
-    setVote(copy)
+    const selectedVoteCount = votes[selected] || 0
+    setVote({
+      ...votes,
+      [selected]: selectedVoteCount + 1
+    })
   }
   let max = votes[0]
   let ind = 0
