@@ -1,20 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Persons from './components/Persons';
 import PersonForm from './components/PersonForm';
 import Filter from './components/Filter';
+import axios from 'axios';
 
 const App = () => {
-  const [ persons, setPersons] = useState([
-    { name: 'Arto Hellas', phone: '+1-802-100-2003' },
-    { name: 'Dastan Samatov', phone: '+1-508-100-1998'},
-    { name: 'Jack Ma', phone: '+1-602-300-2001'},
-    { name: 'Jack Smith', phone: '+1-608-200-1222' },
-    { name: 'Asan Usonov', phone: '+1-508-123-4567' }
-  ])
+  const [ persons, setPersons] = useState([])
   const [ newName, setNewName ] = useState('')
-  const [ newPhone, setNewPhone ] = useState('')
+  const [ newNumber, setNewNumber ] = useState('')
   const [ sorted, setNewSorted ] = useState([...persons])
   const [ newPat, setNewPat ] = useState([''])
+
+  const hook = () =>{
+    console.log("running")
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        console.log("promise fullfilled")
+        setPersons(response.data)
+      })
+  }
+  console.log("persons: ", persons)
+  useEffect(hook, [])
 
   const makeFilter = (event) => {
     setNewPat(event.target.value.toLowerCase())
@@ -27,7 +34,7 @@ const App = () => {
       <Filter newPat={newPat} makeFilter={makeFilter} />
       <h2>Add new record</h2>
       <PersonForm
-      persons={persons} setPersons={setPersons} newPhone={newPhone} setNewPhone={setNewPhone} newName={newName} setNewName={setNewName}
+      persons={persons} setPersons={setPersons} newNumber={newNumber} setNewNumber={setNewNumber} newName={newName} setNewName={setNewName}
       />
       <h2>Numbers</h2>
       <Persons persons={sorted} />

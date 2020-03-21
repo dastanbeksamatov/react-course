@@ -11,17 +11,18 @@ const PersonForm = (props) => {
     if (unique){
       const nameObject = {
         name: props.newName,
-        phone: props.newPhone
+        number: props.newPhone,
+        id: props.persons.length + 1
       }
       props.setPersons(props.persons.concat(nameObject))
       props.setNewName('')
-      props.setNewPhone('')
+      props.setNewNumber('')
     }
     else{
       alert(`${props.newName} is already in the phonebook`)
       props.setPersons(props.persons)
       props.setNewName('')
-      props.setNewPhone('')
+      props.setNewNumber('')
     }
   }
 
@@ -29,12 +30,12 @@ const PersonForm = (props) => {
     props.setNewName(event.target.value)
   }
   const handlePhone = (event) => {
-    props.setNewPhone(event.target.value)
+    props.setNewNumber(event.target.value)
   }
   return(
     <form onSubmit={addRecord}>
       <div>name: <input value={props.newName} onChange={handleChange}/></div>
-      <div>phone: <input value={props.newPhone} onChange={handlePhone}/></div>
+      <div>phone: <input value={props.newNumber} onChange={handlePhone}/></div>
       <div>
         <button type="submit">add</button>
       </div>

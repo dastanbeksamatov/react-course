@@ -4,8 +4,8 @@ const Persons = ({persons}) => {
   return(
     <div>
       <ul>
-        {persons.map((obj,i) =>
-          <li key={i}> {obj.name}: {obj.phone}</li>
+        {persons.map(obj =>
+          <li key={obj.id}> {obj.name}: {obj.number}</li>
         )}
       </ul>
     </div>
