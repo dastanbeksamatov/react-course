@@ -9,9 +9,9 @@ const App = () => {
   const [countries, setCountries] = useState([])
   const [newPattern, setNewPattern] = useState('')
   const [newFiltered, setNewFiltered] = useState([])
+  const [temp, setTemp] = useState({temp:0, wind:0})
 
   const api_key = process.env.REACT_APP_API_KEY
-  console.log(api_key)
   const hook = () => {
     axios
       .get('https://restcountries.eu/rest/v2/all')
@@ -19,12 +19,11 @@ const App = () => {
         setCountries(response.data)
       })
   }
-  console.log('Countries loaded: ', countries.length)
   useEffect(hook, [])
   return(
     <div>
       <Filter countries={countries} setNewFiltered={setNewFiltered} newPattern={newPattern} setNewPattern={setNewPattern} />
-      <Countries countries={newFiltered} setNewFiltered={setNewFiltered} api_key={api_key}/>
+      <Countries countries={newFiltered} setNewFiltered={setNewFiltered} api_key={api_key} temp={temp} setTemp={setTemp}/>
     </div>
   )
 }

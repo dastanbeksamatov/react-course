@@ -1,6 +1,6 @@
 import React from 'react'
 import Country from './Country'
-const Countries = ({countries, setNewFiltered, api_key}) =>{
+const Countries = ({countries, setNewFiltered, api_key, temp, setTemp}) =>{
   const handleClick = (event) =>{
     event.preventDefault()
     const one = countries.filter(country =>
@@ -20,9 +20,8 @@ const Countries = ({countries, setNewFiltered, api_key}) =>{
     )
   }
   else if(countries.length===1){
-    console.log(countries.length)
     return(
-      <Country countries={countries} api_key={api_key}/>
+      <Country countries={countries} api_key={api_key}  setTemp={setTemp} temp={temp}/>
         )
   }
   else if(countries.length===0){
