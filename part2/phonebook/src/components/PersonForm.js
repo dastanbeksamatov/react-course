@@ -4,7 +4,6 @@ const PersonForm = (props) => {
 
   const addRecord = (event) => {
     event.preventDefault()
-    console.log("tried to add contact")
     const unique = props.persons.every(item =>
           item.name.localeCompare(props.newName)
     )
@@ -20,7 +19,6 @@ const PersonForm = (props) => {
     }
     else{
       alert(`${props.newName} is already in the phonebook`)
-      props.setPersons(props.persons)
       props.setNewName('')
       props.setNewNumber('')
     }
@@ -34,8 +32,8 @@ const PersonForm = (props) => {
   }
   return(
     <form onSubmit={addRecord}>
-      <div>name: <input value={props.newName} onChange={handleChange}/></div>
-      <div>phone: <input value={props.newNumber} onChange={handlePhone}/></div>
+      <div>name: <input onChange={handleChange}/></div>
+      <div>phone: <input onChange={handlePhone}/></div>
       <div>
         <button type="submit">add</button>
       </div>

@@ -7,7 +7,6 @@ import Filter from './components/Filter'
 
 const App = () => {
   const [countries, setCountries] = useState([])
-  const [newPattern, setNewPattern] = useState('')
   const [newFiltered, setNewFiltered] = useState([])
   const [temp, setTemp] = useState({temp:0, wind:0})
 
@@ -22,7 +21,7 @@ const App = () => {
   useEffect(hook, [])
   return(
     <div>
-      <Filter countries={countries} setNewFiltered={setNewFiltered} newPattern={newPattern} setNewPattern={setNewPattern} />
+      <Filter countries={countries} setNewFiltered={setNewFiltered} />
       <Countries countries={newFiltered} setNewFiltered={setNewFiltered} api_key={api_key} temp={temp} setTemp={setTemp}/>
     </div>
   )
