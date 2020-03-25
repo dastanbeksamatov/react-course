@@ -10,12 +10,19 @@ const PersonForm = (props) => {
     if (unique){
       const nameObject = {
         name: props.newName,
-        number: props.newPhone,
+        number: props.newNumber,
         id: props.persons.length + 1
       }
-      props.setPersons(props.persons.concat(nameObject))
-      props.setNewName('')
-      props.setNewNumber('')
+      props.personsService
+        .create(nameObject)
+        .then(returnedPerson => {
+          props.persons.concat(returnedPerson)
+          props.setNewName('')
+          props.setNewNumber('')
+        })
+        .catch(error => {
+          console.log('failed')
+        })
     }
     else{
       alert(`${props.newName} is already in the phonebook`)
