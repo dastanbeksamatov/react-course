@@ -29,7 +29,7 @@ const App = () => {
       persons={persons} setPersons={setPersons} newNumber={newNumber} setNewNumber={setNewNumber} newName={newName} setNewName={setNewName} personsService={personsService}
       />
       <h2>Numbers</h2>
-      <Persons persons={sorted} />
+      <Persons persons={sorted} personsService={personsService} setPersons = {setPersons}/>
     </div>
   )
 }
