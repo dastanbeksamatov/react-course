@@ -6,41 +6,14 @@
       "id": 1
     },
     {
-      "name": "Ada Lovelace",
-      "number": "39-44-5323523",
-      "id": 2
-    },
-    {
-      "name": "Dan Abramov",
-      "number": "12-43-234345",
-      "id": 3
-    },
-    {
-      "name": "Mary Poppendieck",
-      "number": "39-23-6423122",
+      "name": "NewUser",
+      "number": "0",
       "id": 4
     },
     {
-      "name": "dasranb",
+      "name": "newUser",
+      "number": "+90930123",
       "id": 5
-    },
-    {
-      "name": "dasya",
-      "id": 6
-    },
-    {
-      "name": "dasda",
-      "id": 7
-    },
-    {
-      "name": "dastan",
-      "number": "+009779089",
-      "id": 8
-    },
-    {
-      "name": "dasyna",
-      "number": "+09079798",
-      "id": 9
     }
   ]
 }

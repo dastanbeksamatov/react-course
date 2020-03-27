@@ -5,8 +5,9 @@ const Filter = ({persons, setNewSorted}) => {
   const handleChange = (event) => {
     const pat = event.target.value.toLowerCase()
     event.preventDefault()
+    const copy = persons
     setNewSorted(
-      persons.filter(person => person.name.toLowerCase().includes(pat)))
+      copy.filter(person => person.name.toLowerCase().includes(pat)))
   }
   return(
     <div>filter shown with: <input onChange={handleChange}/></div>

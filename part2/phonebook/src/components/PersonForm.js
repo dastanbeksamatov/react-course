@@ -7,25 +7,38 @@ const PersonForm = (props) => {
     const unique = props.persons.every(item =>
           item.name.localeCompare(props.newName)
     )
+    const ids = props.persons.map(obj => obj.id)
     if (unique){
       const nameObject = {
         name: props.newName,
         number: props.newNumber,
-        id: props.persons.length + 1
+        id: Math.max(...ids)+1
       }
+      props.setNewName('')
+      props.setNewNumber('')
       props.personsService
         .create(nameObject)
         .then(returnedPerson => {
-          props.persons.concat(returnedPerson)
-          props.setNewName('')
-          props.setNewNumber('')
+          props.setPersons(props.persons.concat(returnedPerson))
         })
         .catch(error => {
           console.log('failed')
         })
     }
     else{
-      alert(`${props.newName} is already in the phonebook`)
+      if (window.confirm(`${props.newName} is already in the phonebook, replace the old number with the new one?`)){
+        const person = props.persons.filter(obj=> obj.name.includes(props.newName))
+        const id = person[0].id
+        const newObject = {...person[0], number: props.newNumber}
+        props.personsService
+          .update(id, newObject)
+          .then(response =>{
+            props.setPersons(props.persons.map(obj => obj.id!==id ? obj : response))
+          })
+          .catch(error => {
+            console.log("error")
+          })
+      }
       props.setNewName('')
       props.setNewNumber('')
     }
@@ -39,8 +52,8 @@ const PersonForm = (props) => {
   }
   return(
     <form onSubmit={addRecord}>
-      <div>name: <input onChange={handleChange}/></div>
-      <div>phone: <input onChange={handlePhone}/></div>
+      <div>name: <input value={props.newName} onChange={handleChange}/></div>
+      <div>phone: <input value={props.newNumber} onChange={handlePhone}/></div>
       <div>
         <button type="submit">add</button>
       </div>

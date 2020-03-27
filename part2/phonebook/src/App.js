@@ -10,8 +10,6 @@ const App = () => {
   const [ newNumber, setNewNumber ] = useState('')
   const [ sorted, setNewSorted ] = useState([...persons])
 
-
-  console.log("persons: ", persons)
   useEffect(() => {
     personsService
     .getAll()
