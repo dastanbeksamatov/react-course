@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Persons = ({persons, personsService, setPersons}) => {
+const Persons = ({persons, personsService, setPersons, setNewMessage, setType}) => {
   const handleClick = (event) => {
     event.preventDefault()
     const pId = event.target.value
@@ -8,12 +8,22 @@ const Persons = ({persons, personsService, setPersons}) => {
       personsService
         .remove(pId)
         .then(() => {
+          setNewMessage(`${event.target.name} has been deleted from the server`)
+          setType(false)
+          setTimeout(()=>{
+            setNewMessage(null)
+          }, 5000)
           return personsService.getAll()
         })
         .then(newPersons => {
           setPersons(newPersons)
         })
         .catch(error=>{
+          setNewMessage(`${event.target.name} has already been deleted from the server`)
+          setType(false)
+          setTimeout(()=>{
+            setNewMessage(null)
+          }, 5000)
           console.log("failed to delete")
         })
       }

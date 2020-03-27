@@ -10,7 +10,8 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ sorted, setNewSorted ] = useState([...persons])
-  const [ message, setNewMessage ] = useState("some message")
+  const [ message, setNewMessage ] = useState("")
+  const [ type, setType ] = useState(true) //the type of the message to be displayed
 
   useEffect(() => {
     personsService
@@ -23,7 +24,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={message} />
+      <Notification type={type} message={message} />
       <Filter persons = {persons} setNewSorted={setNewSorted}/>
       <h2>Add new record</h2>
       <PersonForm
@@ -31,10 +32,10 @@ const App = () => {
       newNumber={newNumber} setNewNumber={setNewNumber}
       newName={newName} setNewName={setNewName}
       personsService={personsService} setNewMessage={setNewMessage}
-      message={message}
+      setType={setType}
       />
       <h2>Numbers</h2>
-      <Persons persons={sorted} message={message} setNewMessage={setNewMessage}
+      <Persons persons={sorted} setType={setType} setNewMessage={setNewMessage}
        personsService={personsService} setPersons = {setPersons}/>
     </div>
   )

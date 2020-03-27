@@ -42,13 +42,20 @@ const PersonForm = (props) => {
             props.setNewMessage(
               `Changed ${newObject.name} number to ${props.newNumber}`
             )
+            props.setType(true)
             setTimeout(()=>{
               props.setNewMessage(null)
             }, 5000)
             props.setPersons(props.persons.map(obj => obj.id!==id ? obj : response))
           })
           .catch(error => {
-            console.log("error")
+            props.setNewMessage(
+              `${newObject.name} has already been deleted from server`
+            )
+            props.setType(false)
+            setTimeout(()=>{
+              props.setNewMessage(null)
+            }, 5000)
           })
       }
       props.setNewName('')
