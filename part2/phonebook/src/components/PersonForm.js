@@ -19,10 +19,16 @@ const PersonForm = (props) => {
       props.personsService
         .create(nameObject)
         .then(returnedPerson => {
+          props.setNewMessage(
+            `Added ${nameObject.name}`
+          )
+          setTimeout(()=>{
+            props.setNewMessage(null)
+          }, 5000)
           props.setPersons(props.persons.concat(returnedPerson))
         })
         .catch(error => {
-          console.log('failed')
+          console.log('error')
         })
     }
     else{
@@ -33,6 +39,12 @@ const PersonForm = (props) => {
         props.personsService
           .update(id, newObject)
           .then(response =>{
+            props.setNewMessage(
+              `Changed ${newObject.name} number to ${props.newNumber}`
+            )
+            setTimeout(()=>{
+              props.setNewMessage(null)
+            }, 5000)
             props.setPersons(props.persons.map(obj => obj.id!==id ? obj : response))
           })
           .catch(error => {

@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import Persons from './components/Persons';
 import PersonForm from './components/PersonForm';
 import Filter from './components/Filter';
-import personsService from './services/persons'
+import personsService from './services/persons';
+import Notification from './components/Notification';
 
 const App = () => {
   const [ persons, setPersons] = useState([])
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ sorted, setNewSorted ] = useState([...persons])
+  const [ message, setNewMessage ] = useState("some message")
 
   useEffect(() => {
     personsService
@@ -21,13 +23,19 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} />
       <Filter persons = {persons} setNewSorted={setNewSorted}/>
       <h2>Add new record</h2>
       <PersonForm
-      persons={persons} setPersons={setPersons} newNumber={newNumber} setNewNumber={setNewNumber} newName={newName} setNewName={setNewName} personsService={personsService}
+      persons={persons} setPersons={setPersons}
+      newNumber={newNumber} setNewNumber={setNewNumber}
+      newName={newName} setNewName={setNewName}
+      personsService={personsService} setNewMessage={setNewMessage}
+      message={message}
       />
       <h2>Numbers</h2>
-      <Persons persons={sorted} personsService={personsService} setPersons = {setPersons}/>
+      <Persons persons={sorted} message={message} setNewMessage={setNewMessage}
+       personsService={personsService} setPersons = {setPersons}/>
     </div>
   )
 }
