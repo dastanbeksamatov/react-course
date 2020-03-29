@@ -61,6 +61,24 @@ app.get('/info', (req, res) => {
     <h4>${date} ${time} GMT +0200 (Eastern European Standart Time)</h4>`)
 })
 
+app.delete('/api/persons/:id', (req, res)=>{
+  const id = Number(req.params.id)
+  const persons = persons.filter(obj=>obj.id!==id)
+  res.status(204).end()
+
+const generateId = () =>{
+  return Math.floor(Math.random() * Math.floor(100000))
+}
+
+app.post('/api/persons', (req,res)=>{
+  console.log(generateId())
+  const pId = generateId()
+  const body = req.body
+  console.log("received ", body)
+})
+
+})
+
 const PORT = 3000
 
 app.listen(PORT)
