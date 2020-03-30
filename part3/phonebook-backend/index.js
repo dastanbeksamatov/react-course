@@ -1,9 +1,16 @@
 const express = require('express')
+const morgan = require('morgan')
 const app = express()
 
 app.use(express.json())
 
-const persons = [
+
+
+morgan.token('body', function(req,res){
+  return JSON.stringify(req.body);
+});
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
+let persons = [
     {
       "name": "Arto Hellas",
       "number": "040-123456",
@@ -63,20 +70,33 @@ app.get('/info', (req, res) => {
 
 app.delete('/api/persons/:id', (req, res)=>{
   const id = Number(req.params.id)
-  const persons = persons.filter(obj=>obj.id!==id)
+  persons = persons.filter(obj=>obj.id!==id)
   res.status(204).end()
-
+})
 const generateId = () =>{
-  return Math.floor(Math.random() * Math.floor(100000))
+  return Math.floor(Math.random() * Math.floor(1000000))
 }
 
-app.post('/api/persons', (req,res)=>{
-  console.log(generateId())
+app.post('/api/persons', (req, res)=>{
   const pId = generateId()
   const body = req.body
-  console.log("received ", body)
-})
-
+  if(!body.name || !body.number){
+    return res.status(404).json({
+      error: "missing name or number"
+    })
+  }
+  else if(!persons.every(person=>person.name.localeCompare(body.name))){
+    return res.status(404).json({
+      error: "name already exists"
+    })
+  }
+  const person = {
+    "name": body.name,
+    "number": body.number,
+    "id": pId
+  }
+  persons = persons.concat(person)
+  res.json(person)
 })
 
 const PORT = 3000
