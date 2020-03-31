@@ -1,9 +1,12 @@
-const express = require('express')
+const express = require('express');
+const cors = require('cors');
+const app = express();
 
-const app = express()
+app.use(express.json());
 
-app.use(express.json())
+app.use(cors());
 
+app.use(express.static('build'));
 let notes = [
   {
     id: 1,
@@ -38,7 +41,29 @@ app.get('/api/notes/:id', (request, response) => {
   else{
     response.status(404).end()
   }
-})
+});
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+};
+app.use(unknownEndpoint);
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError' && error.kind == 'ObjectId') {
+    return response.status(400).send({ error: 'malformatted id' })
+  } else if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
+  }
+
+  next(error);
+};
+
+
+app.use(errorHandler);
+
+
 app.delete('/api/notes/:id', (request, response)=>{
   const id = Number(request.params.id)
   notes = notes.filter(note=>note.id!==id)
@@ -66,9 +91,9 @@ app.post('/api/notes', (request, response) => {
 
   notes = notes.concat(note)
   response.json(note)
-})
+});
 
 
-const PORT = 3001
-app.listen(PORT)
-console.log(`Server running on port ${PORT}`)
+const PORT = process.env.PORT || 3001;
+app.listen(PORT);
+console.log(`Server running on port ${PORT}`);

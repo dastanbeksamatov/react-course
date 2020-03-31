@@ -6,7 +6,11 @@
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "build:ui": "rm -rf build && cd /home/kinglear/react/react-course/part2/test/ && npm run build --prod && cp -r build /home/kinglear/react/react-course/part3/backend/",
+    "deploy": "git push heroku master",
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy",    
+    "logs:prod": "heroku logs --tail"
   },
   "repository": {
     "type": "git",
@@ -15,9 +19,11 @@
   "author": "Dastan",
   "license": "MIT",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
-  }
+  },
+  "proxy": "http://localhost:3001"
 }
