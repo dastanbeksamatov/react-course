@@ -5,5 +5,5 @@ React course on fullstackopen.com
 Phonebook app succesfully deployed to Heroku:
 https://boiling-wave-14629.herokuapp.com/ 
 
-#Note:
+# Note:
 The rest of the tutorial is in a separate repositories
