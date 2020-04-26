@@ -1,30 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import './App.css';
-import Countries from './components/Countries'
-import Filter from './components/Filter'
+import React, { useState } from 'react'
+import './App.css'
+import Country from './components/Country'
+import { useCountry, useField} from './hooks'
 
 
 const App = () => {
-  const [countries, setCountries] = useState([])
-  const [newFiltered, setNewFiltered] = useState([])
-  const [temp, setTemp] = useState({temp:0, wind:0})
+  const nameInput = useField('text')
+  const [name, setName] = useState('')
+  const country = useCountry(name)
 
-  const api_key = process.env.REACT_APP_API_KEY
-  const hook = () => {
-    axios
-      .get('https://restcountries.eu/rest/v2/all')
-      .then(response => {
-        setCountries(response.data)
-      })
+  const fetch = (event) => {
+    event.preventDefault()
+    setName(nameInput.value)
   }
-  useEffect(hook, [])
-  return(
+  console.log(name)
+
+  return (
     <div>
-      <Filter countries={countries} setNewFiltered={setNewFiltered} />
-      <Countries countries={newFiltered} setNewFiltered={setNewFiltered} api_key={api_key} temp={temp} setTemp={setTemp}/>
+      <form onSubmit={fetch}>
+        <input {...nameInput} />
+        <button type="submit">find</button>
+      </form>
+      <Country country={country} />
     </div>
   )
 }
 
-export default App;
+export default App
