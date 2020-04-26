@@ -1,42 +1,42 @@
-import React, { useState, useEffect } from 'react';
-import Persons from './components/Persons';
-import PersonForm from './components/PersonForm';
-import Filter from './components/Filter';
-import personsService from './services/persons';
-import Notification from './components/Notification';
+import React from 'react';
+import { useResource, useField } from './hooks'
 
 const App = () => {
-  const [ persons, setPersons] = useState([])
-  const [ newName, setNewName ] = useState('')
-  const [ newNumber, setNewNumber ] = useState('')
-  const [ sorted, setNewSorted ] = useState([...persons])
-  const [ message, setNewMessage ] = useState("")
-  const [ type, setType ] = useState(true) //the type of the message to be displayed
+  const [ persons, personService ] = useResource('http://localhost:3005/persons')
+  const [ notes, noteService ] = useResource('http://localhost:3005/notes')
+  const content = useField('')
+  const number = useField('')
+  const name = useField('')
 
-  useEffect(() => {
-    personsService
-    .getAll()
-    .then(initialPersons=>{
-      setPersons(initialPersons)
-    })
-  }, [])
+  const handleNoteSubmit = (event) => {
+    event.preventDefault()
+    noteService.add({ content: content.value })
+  }
+
+  const handlePersonSubmit = (event) => {
+    event.preventDefault()
+    personService.add({ name: name.value, number: number.value})
+  }
 
   return (
     <div>
-      <h2>Phonebook</h2>
-      <Notification type={type} message={message} />
-      <Filter persons = {persons} setNewSorted={setNewSorted}/>
-      <h2>Add new record</h2>
-      <PersonForm
-      persons={persons} setPersons={setPersons}
-      newNumber={newNumber} setNewNumber={setNewNumber}
-      newName={newName} setNewName={setNewName}
-      personsService={personsService} setNewMessage={setNewMessage}
-      setType={setType}
-      />
-      <h2>Numbers</h2>
-      <Persons persons={sorted} setType={setType} setNewMessage={setNewMessage}
-       personsService={personsService} setPersons = {setPersons}/>
+      <div>
+        <h2>notes</h2>
+        <form onSubmit={handleNoteSubmit}>
+          <input {...content} />
+          <button>create</button>
+        </form>
+        {notes.map(n => <p key={n.id}>{n.content}</p>)}
+        </div>
+      <div>
+        <h2>Phonebook</h2>
+        <form onSubmit={handlePersonSubmit}>
+        name <input {...name} /> <br/>
+        number <input {...number} />
+        <button>create</button>
+      </form>
+      {persons.map(n => <p key={n.id}>{n.name} {n.number}</p>)}
+       </div>
     </div>
   )
 }

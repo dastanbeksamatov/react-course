@@ -25,7 +25,6 @@ const PersonForm = (props) => {
           setTimeout(()=>{
             props.setNewMessage(null)
           }, 5000)
-          props.setPersons(props.persons.concat(returnedPerson))
         })
         .catch(error => {
           console.log('error')
